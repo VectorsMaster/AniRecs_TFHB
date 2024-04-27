@@ -19,7 +19,11 @@ class Anime(Base):
     title = Column(String, index=True)
     description = Column(String, index=True)
     rating = Column(Double)
-    tags = relationship("Tag", secondary="anime_tag", back_populates="animes")
+    tags = relationship(
+            "Tag",
+            secondary="anime_tag",
+            back_populates="animes"
+        )
 
 
 class AnimeHistory(Base):
@@ -48,7 +52,11 @@ class Tag(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
 
-    animes = relationship("Anime", secondary="anime_tag", back_populates="tags")
+    animes = relationship(
+            "Anime",
+            secondary="anime_tag",
+            back_populates="tags"
+        )
 
 
 User.history = relationship("AnimeHistory", back_populates="user")

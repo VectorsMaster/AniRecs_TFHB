@@ -1,0 +1,35 @@
+name: AniRecs_TFHB
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+
+      - name: Run image
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: '1.7.1'
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: flake8 check
+        run: poetry run flake8 .
+        
+      - name: bandit check
+        run: poetry run bandit -r backend
+     
+      

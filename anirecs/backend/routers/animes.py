@@ -21,19 +21,23 @@ router = APIRouter()
 @router.post("/anime/", response_model=AnimeResponse)
 def create_anime(anime: AnimeCreate, db: Session = Depends(get_db)):
     # Create new anime
-    new_anime = Anime(title=anime.title, description=anime.description, rating=anime.rating)
-    
+    new_anime = Anime(
+            title=anime.title,
+            description=anime.description,
+            rating=anime.rating
+        )
+
     # Handle tags
     for tag_name in anime.tags:
         tag = db.query(Tag).filter(Tag.name == tag_name).first()
         if not tag:
             tag = Tag(name=tag_name)  # Create new tag if it doesn't exist
         new_anime.tags.append(tag)  # Associate tag with anime
-    
+
     db.add(new_anime)
     db.commit()
     db.refresh(new_anime)
-    
+
     return new_anime
 
 

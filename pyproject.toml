@@ -1,9 +1,9 @@
 [tool.poetry]
-name = "anirecs-tfhb"
+name = "anirecs"
 version = "0.1.0"
-description = ""
+description = "anime recommendation system"
 authors = ["Ahmad Sarhan <ahmadhasansarhana@gmail.com>", "Ghadeer Akleh <ghadeer.akleh@gmail.com>"]
-readme = "README.md"
+
 
 [tool.poetry.dependencies]
 python = "^3.11"
