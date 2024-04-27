@@ -1,20 +1,40 @@
 from fastapi import APIRouter, HTTPException, Depends
-from database import SessionLocal
 from sqlalchemy.orm import Session
-from models import Anime
+from models import Anime, Tag
 from schemas.animes import AnimeCreate, AnimeResponse
 from database import get_db
 
 router = APIRouter()
 
+
 # API endpoint to create an anime
-@router.post("/animes/", response_model=AnimeResponse)
-async def create_item(item: AnimeCreate, db: Session = Depends(get_db)):
-    db_item = Anime(**item.dict())
-    db.add(db_item)
+# @router.post("/animes/", response_model=AnimeResponse)
+# async def create_item(item: AnimeCreate, db: Session = Depends(get_db)):
+#     db_item = Anime(**item.dict())
+#     db.add(db_item)
+#     db.commit()
+#     db.refresh(db_item)
+#     return db_item
+
+
+# API endpoint to create an anime
+@router.post("/anime/", response_model=AnimeResponse)
+def create_anime(anime: AnimeCreate, db: Session = Depends(get_db)):
+    # Create new anime
+    new_anime = Anime(title=anime.title, description=anime.description, rating=anime.rating)
+    
+    # Handle tags
+    for tag_name in anime.tags:
+        tag = db.query(Tag).filter(Tag.name == tag_name).first()
+        if not tag:
+            tag = Tag(name=tag_name)  # Create new tag if it doesn't exist
+        new_anime.tags.append(tag)  # Associate tag with anime
+    
+    db.add(new_anime)
     db.commit()
-    db.refresh(db_item)
-    return db_item
+    db.refresh(new_anime)
+    
+    return new_anime
 
 
 # API endpoint to create an item
