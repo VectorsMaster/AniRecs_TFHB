@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from database import engine, Base
-from routers import animes, users
+from routers import animes, users, history
 
 app = FastAPI()
 
@@ -10,6 +10,7 @@ Base.metadata.create_all(bind=engine)
 # Include routers
 app.include_router(animes.router)
 app.include_router(users.router)
+app.include_router(history.router)
 
 if __name__ == "__main__":
     import uvicorn

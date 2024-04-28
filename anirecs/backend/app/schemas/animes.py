@@ -13,6 +13,11 @@ class AnimeCreate(BaseModel):
     rating: float
     tags: List[str] = []
 
+    class Config:
+        orm_mode = True
+        from_attributes = True
+        # allow_population_by_field_name = True
+
 
 # Pydantic model for response data
 class AnimeResponse(BaseModel):
