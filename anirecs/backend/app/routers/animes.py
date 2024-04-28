@@ -1,8 +1,9 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
-from models import Anime, Tag
-from schemas.animes import AnimeCreate, AnimeResponse
-from database import get_db
+
+from anirecs.backend.app.models import Anime, Tag
+from anirecs.backend.app.schemas.animes import AnimeCreate, AnimeResponse
+from anirecs.backend.app.database import get_db
 
 router = APIRouter()
 

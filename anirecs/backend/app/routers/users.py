@@ -6,11 +6,11 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-from secrets import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 
-from schemas.users import Token, TokenData, UserResponse
-from models import User
-from database import get_db
+from anirecs.backend.app.secrets import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
+from anirecs.backend.app.schemas.users import Token, TokenData, UserResponse
+from anirecs.backend.app.models import User
+from anirecs.backend.app.database import get_db
 
 router = APIRouter()
 

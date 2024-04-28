@@ -1,6 +1,7 @@
 from fastapi import FastAPI
-from database import engine, Base
-from routers import animes, users
+
+from anirecs.backend.app.database import engine, Base
+from anirecs.backend.app.routers import animes, users
 
 app = FastAPI()
 
