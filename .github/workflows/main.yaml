@@ -33,6 +33,6 @@ jobs:
         run: poetry run bandit -r anirecs/backend/app/
 
       - name: Backend test coverage
-        run: poetry run pytest --cov=anirecs/backend/app --cov=branch --cov-report=term
+        run: poetry run pytest --cov=anirecs/backend/app --cov=branch --cov-report=term --cov-fail-under=60
      
       
