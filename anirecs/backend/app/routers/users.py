@@ -7,7 +7,11 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
-from anirecs.backend.app.secrets import OpenSSLRand, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
+from anirecs.backend.app.secrets import (
+    OpenSSLRand,
+    ALGORITHM,
+    ACCESS_TOKEN_EXPIRE_MINUTES
+)
 from anirecs.backend.app.schemas.users import Token, TokenData, UserResponse
 from anirecs.backend.app.models import User
 from anirecs.backend.app.database import get_db

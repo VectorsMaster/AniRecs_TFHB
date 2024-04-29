@@ -4,7 +4,11 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from anirecs.backend.app.schemas.users import UserResponse
 from anirecs.backend.app.routers.users import get_current_user
 from sqlalchemy.orm import Session
-from anirecs.backend.app.schemas.animes import AnimeResponse, TagResponse, AnimesResponse, convert
+from anirecs.backend.app.schemas.animes import (
+    AnimeResponse,
+    AnimesResponse,
+    convert
+)
 from anirecs.backend.app.database import get_db
 from anirecs.backend.app.models import Anime, AnimeHistory, User
 router = APIRouter()
@@ -48,4 +52,3 @@ def get_my_history(
 ):
     user = db.query(User).filter(User.id == current_user.id).first()
     return convert([item.anime for item in user.history])
-    
