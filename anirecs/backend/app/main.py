@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from anirecs.backend.app.database import engine, Base
-from anirecs.backend.app.routers import animes, users, history
+from anirecs.backend.app.routers import animes, users, history, recommend
 
 app = FastAPI()
 
@@ -12,6 +12,7 @@ Base.metadata.create_all(bind=engine)
 app.include_router(animes.router)
 app.include_router(users.router)
 app.include_router(history.router)
+app.include_router(recommend.router)
 
 if __name__ == "__main__":
     import uvicorn

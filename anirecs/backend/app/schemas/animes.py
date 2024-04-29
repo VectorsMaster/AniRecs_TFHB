@@ -26,3 +26,17 @@ class AnimeResponse(BaseModel):
     description: str
     rating: float
     tags: List[TagResponse] = []
+
+
+class AnimesResponse(BaseModel):
+    animes: List[AnimeResponse] = []
+
+
+def convert(animes) -> AnimesResponse:
+    response = AnimesResponse()
+    for anime in animes:
+        anime_res = AnimeResponse(id=anime.id, title=anime.title, description=anime.description, rating=anime.rating, tags=[])
+        for tag in anime.tags:
+            anime_res.tags.append(TagResponse(name=tag.name))
+        response.animes.append(anime_res)
+    return response
