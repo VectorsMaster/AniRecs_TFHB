@@ -15,12 +15,17 @@ engine = create_engine(
     connect_args={"check_same_thread": False},
     poolclass=StaticPool,
 )
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+TestingSessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
 
 
 Base.metadata.create_all(bind=engine)
 
 
+# New database session
 def override_get_db():
     try:
         db = TestingSessionLocal()
@@ -32,6 +37,7 @@ def override_get_db():
 app.dependency_overrides[get_db] = override_get_db
 
 client = TestClient(app)
+
 
 # Test client setup
 @pytest.fixture(scope="module")
@@ -66,9 +72,31 @@ def test_create_anime(test_client):
 # Test case for handling anime not found
 def test_read_anime_not_found(test_client):
     # When
-    response = test_client.get("/animes/2")
+    response = test_client.get("/animes/100")
 
     # Then
     assert response.status_code == 404
     assert response.json() == {"detail": "Item not found"}
 
+
+# Test reading an anime by ID
+def test_read_anime_get(test_client):
+    anime_data = {
+        "title": "Drama Test Anime",
+        "description": "Drama Anime Description",
+        "rating": 8,
+        "tags": ["Drama", "Fantasy"],
+    }
+    create_response = test_client.post("/anime/", json=anime_data)
+    anime_id = create_response.json()["id"]  # Get the anime ID
+
+    response = test_client.get(f"/animes/{anime_id}")
+
+    assert response.status_code == 200
+    data = response.json()
+
+    assert data["title"] == "Drama Test Anime"
+    assert data["description"] == "Drama Anime Description"
+    assert data["rating"] == 8
+    assert "Drama" in [tag["name"] for tag in data["tags"]]
+    assert "Fantasy" in [tag["name"] for tag in data["tags"]]

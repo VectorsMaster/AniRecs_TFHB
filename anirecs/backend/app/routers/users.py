@@ -108,8 +108,8 @@ async def read_users_me(
     return current_user
 
 
-@router.post("/sign_in/", response_model=UserResponse)
-async def sign_user_in(
+@router.post("/sign_up/", response_model=UserResponse)
+async def sign_user_up(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     db: Session = Depends(get_db)
 ):

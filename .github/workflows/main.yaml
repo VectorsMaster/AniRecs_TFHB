@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  lint_bandit:
+  quality:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -31,5 +31,8 @@ jobs:
         
       - name: bandit check
         run: poetry run bandit -r anirecs/backend/app/
+
+      - name: Backend test coverage
+        run: poetry run pytest --cov=anirecs/backend/app --cov=branch --cov-report=term
      
       
