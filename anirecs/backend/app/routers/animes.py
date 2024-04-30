@@ -86,4 +86,4 @@ async def search(
                 Anime.tags.any(func.lower(Tag.name) == genre)
             ).all()[0:10]
         )
-    return AnimesResponse()
+    return convert(db.query(Anime).all())

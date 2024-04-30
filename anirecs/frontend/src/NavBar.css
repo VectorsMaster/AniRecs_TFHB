@@ -1,0 +1,58 @@
+.NavBar{
+  background-color:rgb(237, 254, 254);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;  
+  height: 3.5rem;
+}
+
+.NavBar .rightNav{
+  margin-left: auto;
+  margin-right: 1rem;
+  font-size: large;
+  display: flex;
+  height: 100%;
+}
+.NavBar .rightNav div{
+  display: flex;
+  align-items: center;
+}
+
+.NavBar .rightNav button {
+  margin-left: 1rem;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: large;
+  font-weight: bold;
+  border: none;
+} 
+.NavBar .rightNav button:hover{
+  background-color:rgb(213, 255, 255);
+}
+.NavBar .leftNav {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.NavBar .leftNav a{
+  height: 100%;
+  padding: 0 0.8rem;
+  text-decoration: none;
+  font-weight: bold;
+  color: #000;
+  font-size: large;
+  border-left: #000 1px solid;
+  display: flex;
+  align-items: center;
+}
+
+.NavBar .leftNav a:hover{
+  background-color:rgb(213, 255, 255);
+}
+
+.NavBar .leftNav a:first-child{
+  border: none;
+}
+
+
