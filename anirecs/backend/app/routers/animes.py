@@ -1,8 +1,15 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
-from models import Anime, Tag
-from schemas.animes import AnimeCreate, AnimeResponse
-from database import get_db
+from sqlalchemy import func
+
+from anirecs.backend.app.models import Anime, Tag
+from anirecs.backend.app.schemas.animes import (
+    AnimeCreate,
+    AnimeResponse,
+    AnimesResponse,
+    convert
+)
+from anirecs.backend.app.database import get_db
 
 router = APIRouter()
 
@@ -49,3 +56,34 @@ def read_item(anime_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Item not found")
 
     return db_item
+
+
+@router.get("/animes", response_model=AnimesResponse)
+async def search(
+    title: str | None = None,
+    description: str | None = None,
+    genre: str | None = None,
+    db: Session = Depends(get_db)
+):
+    if title:
+        title = title.lower()
+        return convert(
+            db.query(Anime).filter(
+                func.lower(Anime.title).like(f"%{title}%")
+            ).all()[0:10]
+        )
+    if description:
+        description = description.lower()
+        return convert(
+            db.query(Anime).filter(
+                func.lower(Anime.description).like(f"%{description}%")
+            ).all()[0:10]
+        )
+    if genre:
+        genre = genre.lower()
+        return convert(
+            db.query(Anime).filter(
+                Anime.tags.any(func.lower(Tag.name) == genre)
+            ).all()[0:10]
+        )
+    return AnimesResponse()

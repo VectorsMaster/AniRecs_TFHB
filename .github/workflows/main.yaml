@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  lint_bandit:
+  quality:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -27,9 +27,12 @@ jobs:
         run: poetry install
 
       - name: flake8 check
-        run: poetry run flake8 .
+        run: poetry run flake8 --max-complexity 8
         
       - name: bandit check
         run: poetry run bandit -r anirecs/backend/app/
+
+      - name: Backend test coverage
+        run: poetry run pytest --cov=anirecs/backend/app --cov=branch --cov-report=term --cov-fail-under=60
      
       

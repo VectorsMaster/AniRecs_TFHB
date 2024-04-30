@@ -1,13 +1,16 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from schemas.users import UserResponse
-from routers.users import get_current_user
+from anirecs.backend.app.schemas.users import UserResponse
+from anirecs.backend.app.routers.users import get_current_user
 from sqlalchemy.orm import Session
-from schemas.animes import AnimeResponse, TagResponse
-from database import get_db
-from models import Anime, AnimeHistory, User
-from schemas.history import HistoryResponse
+from anirecs.backend.app.schemas.animes import (
+    AnimeResponse,
+    AnimesResponse,
+    convert
+)
+from anirecs.backend.app.database import get_db
+from anirecs.backend.app.models import Anime, AnimeHistory, User
 router = APIRouter()
 
 
@@ -42,21 +45,10 @@ def watch(
     return anime
 
 
-@router.get("/history", response_model=HistoryResponse)
+@router.get("/history", response_model=AnimesResponse)
 def get_my_history(
     current_user: Annotated[UserResponse, Depends(get_current_user)],
     db: Session = Depends(get_db)
 ):
     user = db.query(User).filter(User.id == current_user.id).first()
-    user_history = HistoryResponse()
-    for anime in user.history:
-        current_anime = db.query(Anime).filter(
-                Anime.id == anime.anime_id
-            ).first()
-        anime_res = AnimeResponse.model_validate(current_anime.__dict__)
-        print(current_anime.tags)
-        for tag in current_anime.tags:
-            anime_res.tags.append(TagResponse.model_validate(tag.__dict__))
-
-        user_history.animes.append(anime_res)
-    return user_history
+    return convert([item.anime for item in user.history])

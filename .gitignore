@@ -1,5 +1,6 @@
 *.db
-
+*.json
+*.csv
 __pycache__/
 
-secrets.py
+*.coverage
