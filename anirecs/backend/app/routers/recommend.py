@@ -45,7 +45,7 @@ def recommend(
             scale = tag_occurences.get(tag.name)
             if scale:
                 score += scale
-        recommendation_list.append(((-score, anime.rating), anime))
+        recommendation_list.append(((-score, anime.rank), anime))
 
     recommendation_list.sort(key=lambda x: x[0])
     return convert([item[1] for item in recommendation_list[0:10]])
