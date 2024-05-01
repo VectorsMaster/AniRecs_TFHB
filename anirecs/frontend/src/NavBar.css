@@ -1,20 +1,22 @@
-.NavBar{
-  background-color:rgb(237, 254, 254);
+.NavBar {
+  background-color: #003C43;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 1rem;  
+  color: #E3FEF7;
+  padding: 0 1rem;
   height: 3.5rem;
 }
 
-.NavBar .rightNav{
+.NavBar .rightNav {
   margin-left: auto;
   margin-right: 1rem;
   font-size: large;
   display: flex;
   height: 100%;
 }
-.NavBar .rightNav div{
+
+.NavBar .rightNav div {
   display: flex;
   align-items: center;
 }
@@ -26,33 +28,36 @@
   font-size: large;
   font-weight: bold;
   border: none;
-} 
-.NavBar .rightNav button:hover{
-  background-color:rgb(213, 255, 255);
+  color: #E3FEF7;
 }
+
+.NavBar .rightNav button:hover {
+  background-color: #135D66;
+}
+
 .NavBar .leftNav {
   height: 100%;
   display: flex;
   align-items: center;
 }
-.NavBar .leftNav a{
+
+.NavBar .leftNav a {
   height: 100%;
   padding: 0 0.8rem;
   text-decoration: none;
   font-weight: bold;
-  color: #000;
+  color: #E3FEF7;
   font-size: large;
   border-left: #000 1px solid;
   display: flex;
   align-items: center;
 }
 
-.NavBar .leftNav a:hover{
-  background-color:rgb(213, 255, 255);
+.NavBar .leftNav a:hover {
+  background-color: #135D66;
 }
 
-.NavBar .leftNav a:first-child{
-  border: none;
+.NavBar h3 {
+  margin-right: 1rem;
+  font-family: cursive;
 }
-
-

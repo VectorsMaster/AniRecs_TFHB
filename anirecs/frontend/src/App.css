@@ -43,7 +43,7 @@ code {
 
 input[type='button'] {
   border: none;
-  background: cornflowerblue;
+  background: #135D66;
   color: white;
   padding: 12px 24px;
   margin: 8px;
@@ -113,25 +113,71 @@ input[type='button'] {
 
 .animeList {
   width: 75%;
-  margin: 1rem auto;
+  margin: 2rem auto;
 }
 
-.animeList > div {
-  background-color:rgb(246, 253, 255);
-  margin: 1rem 0;
-  padding: 1rem;
+.animeList>div {
+  background-color: #f0faf7;
+  margin: 1.5rem 0;
+  border-radius: 1rem;
+  padding: 1.5rem;
 }
 
-.animeList h2{
-  margin: 0;
+.animeList h2 {
+  margin: 0.3rem;
 }
 
-.anime-tags{
+.anime-tags {
   display: flex;
 }
+
 .anime-tags div {
   margin: 0 0.2rem;
   padding: 0.5rem;
   border-radius: 1rem;
-  background-color: rgb(212, 255, 241);
+  background-color: #003C43;
+  color: #fff;
+}
+
+.anime-tags button {
+  margin-left: auto;
+  background-color: transparent;
+  border: 1px solid #003C43;
+  border-radius: 0.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.anime-tags button:hover {
+  background-color: #003C43;
+  color: #fff;
+}
+
+.search-bar {
+  background-color: #77B0AA;
+  width: 100%;
+
+}
+
+.search-bar>div {
+  width: 75%;
+  margin: 0 auto;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-bar input {
+  padding: 0.5rem;
+  border: none;
+  font-weight: bold;
+  width: 20%;
+  color: #000;
+  background-color: #E3FEF7;
+}
+
+.search-bar input:focus {
+  outline: none;
 }
