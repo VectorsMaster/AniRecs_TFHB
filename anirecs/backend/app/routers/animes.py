@@ -15,7 +15,7 @@ from anirecs.backend.app.schemas.animes import (
     convert
 )
 from anirecs.backend.app.database import get_db
-from secrets import client_id
+from anirecs.backend.app.secrets import client_id
 
 router = APIRouter()
 
@@ -82,13 +82,14 @@ async def populate(
 
 
 # API endpoint to create an anime
-@router.post("/anime", response_model=AnimeResponse)
+@router.post("/anime/", response_model=AnimeResponse)
 def create_anime(anime: AnimeCreate, db: Session = Depends(get_db)):
     # Create new anime
     new_anime = Anime(
             title=anime.title,
             description=anime.description,
-            rating=anime.rating
+            rank=anime.rank,
+            main_picture=anime.main_picture
         )
 
     # Handle tags

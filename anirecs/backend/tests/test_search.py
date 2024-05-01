@@ -63,15 +63,15 @@ def test_search_by_title(test_client):
     anime_data = [
         {"title": "Naruto",
          "description": "Ninja adventures",
-         "rating": 9.5,
+         "rank": 9,
          "tags": ["Action"]},
         {"title": "Bleach",
          "description": "Soul Reapers",
-         "rating": 8.5,
+         "rank": 8,
          "tags": ["Action", "Fantasy"]},
         {"title": "One Piece",
          "description": "Pirate adventures",
-         "rating": 7.5,
+         "rank": 7,
          "tags": ["Adventure"]},
     ]
 
@@ -145,20 +145,23 @@ def test_random_search(test_client):
     random_titles = [random_string() for _ in range(5)]
 
     for title in random_titles:
-        test_client.post("/anime/", json={
+        random_anime_data = {
             "title": title,
             "description": f"Description of {title}",
-            "rating": random.uniform(5.0, 10.0),
+            "rank": int(random.uniform(1, 100)),
+            "main_picture": "http://example.com/image.jpg",
             "tags": [random.choice(["Action", "Comedy", "Sci-Fi"])],
-        })
+        }
+        test_client.post("/anime/", json=random_anime_data)
 
     # Random search
     search_term = random.choice(random_titles)
-    response = test_client.get(f"/animes?title={search_term}")
+    search_response = test_client.get(f"/animes?title={search_term}")
 
-    assert response.status_code == 200
+    assert search_response.status_code == 200
+
     # Extract all titles from the response
-    titles = [anime["title"] for anime in response.json()["animes"]]
+    titles = [anime["title"] for anime in search_response.json()["animes"]]
 
     # Check if the animes are in the list of title
     assert search_term in titles

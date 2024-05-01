@@ -72,14 +72,16 @@ def test_recommend_basic(test_client):
     response = test_client.post("/anime/", json={
         "title": "Anime 1",
         "description": "Description for Anime 1",
-        "rating": 8.0,
+        "rank": 8,
+        "main_picture": "http://example.com/image.jpg",
         "tags": ["Action", "Adventure"],
     })
 
     test_client.post("/anime/", json={
         "title": "Recommended Anime",
         "description": "Description for Recommended Anime",
-        "rating": 7.5,
+        "rank": 7,
+        "main_picture": "http://example.com/image.jpg",
         "tags": ["Fantasy", "Action"],
     })
 
@@ -96,8 +98,6 @@ def test_recommend_basic(test_client):
     response = test_client.get("/recommend", headers=headers)
 
     assert response.status_code == 200
-    recommendations = response.json()
-    print(recommendations)
 
     titles = [anime["title"] for anime in response.json()["animes"]]
 

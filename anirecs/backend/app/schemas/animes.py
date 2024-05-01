@@ -11,6 +11,7 @@ class AnimeCreate(BaseModel):
     title: str
     description: str
     rank: int
+    main_picture: str = ""
     tags: List[str] = []
 
 

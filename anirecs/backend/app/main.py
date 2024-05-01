@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from passlib.context import CryptContext
 
-from secrets import root_p
+from anirecs.backend.app.secrets import root_p
 from anirecs.backend.app.models import User
 from anirecs.backend.app.database import engine, Base, SessionLocal
 from anirecs.backend.app.routers import (
