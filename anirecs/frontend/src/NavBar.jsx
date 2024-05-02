@@ -32,7 +32,7 @@ const NavBar = () => {
   return (
     <div className="NavBar">
       <div className="leftNav">
-        <h3>Anime Recs</h3>
+        <h1>Anime Recs</h1>
         <Link to="/">Home</Link>
         <Link to="/history">History</Link>
         <Link to="/recommend">Recommend</Link>

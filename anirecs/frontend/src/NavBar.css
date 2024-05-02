@@ -27,7 +27,7 @@
   cursor: pointer;
   font-size: large;
   font-weight: bold;
-  border: none;
+  border: #000 1px solid;
   color: #E3FEF7;
 }
 
@@ -45,7 +45,7 @@
   height: 100%;
   padding: 0 0.8rem;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 400;
   color: #E3FEF7;
   font-size: large;
   border-left: #000 1px solid;
@@ -57,7 +57,7 @@
   background-color: #135D66;
 }
 
-.NavBar h3 {
+.NavBar h1 {
   margin-right: 1rem;
   font-family: cursive;
 }

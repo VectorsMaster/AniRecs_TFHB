@@ -10,6 +10,8 @@ const AnimeList = ({ animeList, isHistory }) => {
               key={a.id}
               title={a.title}
               tags={a.tags}
+              main_picture={a.main_picture}
+              rank={a.rank}
               description={a.description}
               id={a.id}
               isHistory={isHistory}
