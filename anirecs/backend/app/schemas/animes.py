@@ -10,13 +10,9 @@ class TagResponse(BaseModel):
 class AnimeCreate(BaseModel):
     title: str
     description: str
-    rating: float
+    rank: int
+    main_picture: str = ""
     tags: List[str] = []
-
-    class Config:
-        orm_mode = True
-        from_attributes = True
-        # allow_population_by_field_name = True
 
 
 # Pydantic model for response data
@@ -24,7 +20,8 @@ class AnimeResponse(BaseModel):
     id: int
     title: str
     description: str
-    rating: float
+    rank: int
+    main_picture: str
     tags: List[TagResponse] = []
 
 
@@ -39,7 +36,8 @@ def convert(animes) -> AnimesResponse:
             id=anime.id,
             title=anime.title,
             description=anime.description,
-            rating=anime.rating,
+            rank=anime.rank,
+            main_picture=anime.main_picture,
             tags=[]
         )
         for tag in anime.tags:
