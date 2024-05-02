@@ -74,7 +74,8 @@ def test_watch_anime_success(test_client):
     anime_data = {
         "title": "Random Anime",
         "description": "Description of Random Anime",
-        "rating": 8.5,
+        "rank": 8,
+        "main_picture": "http://example.com/image.jpg",
         "tags": ["Action"]
     }
     response = test_client.post("/anime/", json=anime_data)
@@ -115,7 +116,8 @@ def test_watch_anime_duplicate(test_client):
     anime_data = {
         "title": "Fun Anime",
         "description": "Description of Fun Anime",
-        "rating": 5,
+        "rank": 5,
+        "main_picture": "http://example.com/image.jpg",
         "tags": ["Comedy"]
     }
     response = test_client.post("/anime/", json=anime_data)

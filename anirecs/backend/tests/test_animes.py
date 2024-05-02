@@ -52,7 +52,8 @@ def test_create_anime(test_client):
     new_anime = {
         "title": "Anime test",
         "description": "Description test",
-        "rating": 9,
+        "rank": 9,
+        "main_picture": "http://example.com/image.jpg",
         "tags": ["Comedy", "Action"]
     }
 
@@ -64,7 +65,7 @@ def test_create_anime(test_client):
     data = response.json()
     assert data["title"] == new_anime["title"]
     assert data["description"] == new_anime["description"]
-    assert data["rating"] == new_anime["rating"]
+    assert data["rank"] == new_anime["rank"]
     assert "Action" in [tag["name"] for tag in data["tags"]]
     assert "Comedy" in [tag["name"] for tag in data["tags"]]
 
@@ -84,7 +85,8 @@ def test_read_anime_get(test_client):
     anime_data = {
         "title": "Drama Test Anime",
         "description": "Drama Anime Description",
-        "rating": 8,
+        "rank": 8,
+        "main_picture": "http://example.com/image.jpg",
         "tags": ["Drama", "Fantasy"],
     }
     create_response = test_client.post("/anime/", json=anime_data)
@@ -97,6 +99,6 @@ def test_read_anime_get(test_client):
 
     assert data["title"] == "Drama Test Anime"
     assert data["description"] == "Drama Anime Description"
-    assert data["rating"] == 8
+    assert data["rank"] == 8
     assert "Drama" in [tag["name"] for tag in data["tags"]]
     assert "Fantasy" in [tag["name"] for tag in data["tags"]]

@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, ForeignKey, Integer, String, Double
+from sqlalchemy import Table, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from anirecs.backend.app.database import Base
@@ -18,12 +18,13 @@ class Anime(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String, index=True)
     description = Column(String, index=True)
-    rating = Column(Double)
+    main_picture = Column(String)
+    rank = Column(Integer)
     tags = relationship(
-            "Tag",
-            secondary="anime_tag",
-            back_populates="animes"
-        )
+        "Tag",
+        secondary="anime_tag",
+        back_populates="animes"
+    )
 
 
 class AnimeHistory(Base):
@@ -37,7 +38,6 @@ class AnimeHistory(Base):
     anime = relationship("Anime", back_populates="watched_by")
 
 
-# Many-to-many association table for anime and tags
 anime_tag = Table(
     "anime_tag",
     Base.metadata,

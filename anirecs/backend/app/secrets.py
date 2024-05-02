@@ -8,3 +8,4 @@ OpenSSLRand = """
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 client_id = "5b60e344c0c98bdfdb31bbfb8f89c02a"
+root_p = 'rootrootrootroot'
