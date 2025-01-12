@@ -7,12 +7,7 @@ from passlib.context import CryptContext
 from anirecs.backend.settings import ROOT_PASSWORD
 from anirecs.backend.app.models import User
 from anirecs.backend.app.database import engine, Base, SessionLocal
-from anirecs.backend.app.routers import (
-    animes,
-    users,
-    history,
-    recommend
-)
+from anirecs.backend.app.routers import animes, users, history, recommend
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -22,10 +17,10 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def moderator():
     db = SessionLocal()
-    user = db.query(User).filter(User.username == 'root').first()
+    user = db.query(User).filter(User.username == "root").first()
     if not user:
         user = User(
-            username='root',
+            username="root",
             hashed_password=pwd_context.hash(ROOT_PASSWORD),
         )
         db.add(user)
@@ -42,6 +37,7 @@ def release():
 async def lifespan(app: FastAPI):
     moderator()
     yield release()
+
 
 app = FastAPI(lifespan=lifespan)
 
@@ -68,4 +64,5 @@ app.add_middleware(
 if __name__ == "__main__":
     moderator()
     import uvicorn
+
     uvicorn.run(app, host="127.0.0.1", port=8000)

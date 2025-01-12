@@ -20,19 +20,15 @@ class Anime(Base):
     description = Column(String, index=True)
     main_picture = Column(String)
     rank = Column(Integer)
-    tags = relationship(
-        "Tag",
-        secondary="anime_tag",
-        back_populates="animes"
-    )
+    tags = relationship("Tag", secondary="anime_tag", back_populates="animes")
 
 
 class AnimeHistory(Base):
     __tablename__ = "anime_history"
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    anime_id = Column(Integer, ForeignKey('animes.id'))
+    user_id = Column(Integer, ForeignKey("users.id"))
+    anime_id = Column(Integer, ForeignKey("animes.id"))
 
     user = relationship("User", back_populates="history")
     anime = relationship("Anime", back_populates="watched_by")
@@ -52,11 +48,7 @@ class Tag(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
 
-    animes = relationship(
-            "Anime",
-            secondary="anime_tag",
-            back_populates="tags"
-        )
+    animes = relationship("Anime", secondary="anime_tag", back_populates="tags")
 
 
 User.history = relationship("AnimeHistory", back_populates="user")

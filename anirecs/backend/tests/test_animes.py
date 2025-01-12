@@ -15,11 +15,7 @@ engine = create_engine(
     connect_args={"check_same_thread": False},
     poolclass=StaticPool,
 )
-TestingSessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine
-)
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 Base.metadata.create_all(bind=engine)
@@ -54,7 +50,7 @@ def test_create_anime(test_client):
         "description": "Description test",
         "rank": 9,
         "main_picture": "http://example.com/image.jpg",
-        "tags": ["Comedy", "Action"]
+        "tags": ["Comedy", "Action"],
     }
 
     # When

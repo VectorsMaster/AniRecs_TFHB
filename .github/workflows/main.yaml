@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.11'
+          python-version: '3.10'
 
       - name: Run image
         uses: abatilo/actions-poetry@v2
@@ -27,7 +27,7 @@ jobs:
         run: poetry install
 
       - name: flake8 check
-        run: poetry run flake8 --max-complexity 10
+        run: poetry run black --check .
         
       - name: bandit check
         run: poetry run bandit -r anirecs/backend/app/

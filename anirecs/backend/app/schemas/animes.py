@@ -38,7 +38,7 @@ def convert(animes) -> AnimesResponse:
             description=anime.description,
             rank=anime.rank,
             main_picture=anime.main_picture,
-            tags=[]
+            tags=[],
         )
         for tag in anime.tags:
             anime_res.tags.append(TagResponse(name=tag.name))

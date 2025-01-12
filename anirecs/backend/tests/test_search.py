@@ -20,11 +20,7 @@ engine = create_engine(
     connect_args={"check_same_thread": False},
     poolclass=StaticPool,
 )
-TestingSessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine
-)
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base.metadata.create_all(bind=engine)
 
@@ -52,27 +48,31 @@ def test_client():
 
 # Helper function to create random strings
 def random_string(length=10):
-    return ''.join(
-        random.choice(string.ascii_lowercase) for _ in range(length)
-    )
+    return "".join(random.choice(string.ascii_lowercase) for _ in range(length))
 
 
 # Test search by title
 def test_search_by_title(test_client):
     # Create some anime
     anime_data = [
-        {"title": "Naruto",
-         "description": "Ninja adventures",
-         "rank": 9,
-         "tags": ["Action"]},
-        {"title": "Bleach",
-         "description": "Soul Reapers",
-         "rank": 8,
-         "tags": ["Action", "Fantasy"]},
-        {"title": "One Piece",
-         "description": "Pirate adventures",
-         "rank": 7,
-         "tags": ["Adventure"]},
+        {
+            "title": "Naruto",
+            "description": "Ninja adventures",
+            "rank": 9,
+            "tags": ["Action"],
+        },
+        {
+            "title": "Bleach",
+            "description": "Soul Reapers",
+            "rank": 8,
+            "tags": ["Action", "Fantasy"],
+        },
+        {
+            "title": "One Piece",
+            "description": "Pirate adventures",
+            "rank": 7,
+            "tags": ["Adventure"],
+        },
     ]
 
     for anime in anime_data:

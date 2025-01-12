@@ -17,11 +17,7 @@ engine = create_engine(
     connect_args={"check_same_thread": False},
     poolclass=StaticPool,
 )
-TestingSessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine
-)
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base.metadata.create_all(bind=engine)
 
@@ -69,21 +65,27 @@ def test_recommend_basic(test_client):
     token = get_token(test_client, "userrecommended", "userrecommendedpass")
 
     # Create some anime and tags
-    response = test_client.post("/anime/", json={
-        "title": "Anime 1",
-        "description": "Description for Anime 1",
-        "rank": 8,
-        "main_picture": "http://example.com/image.jpg",
-        "tags": ["Action", "Adventure"],
-    })
+    response = test_client.post(
+        "/anime/",
+        json={
+            "title": "Anime 1",
+            "description": "Description for Anime 1",
+            "rank": 8,
+            "main_picture": "http://example.com/image.jpg",
+            "tags": ["Action", "Adventure"],
+        },
+    )
 
-    test_client.post("/anime/", json={
-        "title": "Recommended Anime",
-        "description": "Description for Recommended Anime",
-        "rank": 7,
-        "main_picture": "http://example.com/image.jpg",
-        "tags": ["Fantasy", "Action"],
-    })
+    test_client.post(
+        "/anime/",
+        json={
+            "title": "Recommended Anime",
+            "description": "Description for Recommended Anime",
+            "rank": 7,
+            "main_picture": "http://example.com/image.jpg",
+            "tags": ["Fantasy", "Action"],
+        },
+    )
 
     anime_id = response.json()["id"]
 

@@ -17,11 +17,7 @@ engine = create_engine(
     connect_args={"check_same_thread": False},
     poolclass=StaticPool,
 )
-TestingSessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine
-)
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base.metadata.create_all(bind=engine)
 
@@ -76,7 +72,7 @@ def test_watch_anime_success(test_client):
         "description": "Description of Random Anime",
         "rank": 8,
         "main_picture": "http://example.com/image.jpg",
-        "tags": ["Action"]
+        "tags": ["Action"],
     }
     response = test_client.post("/anime/", json=anime_data)
 
@@ -92,8 +88,7 @@ def test_watch_anime_success(test_client):
     assert anime_response.status_code == 200
 
     response = test_client.post(
-        f"/watch/{anime_response.json()['id']}",
-        headers=headers
+        f"/watch/{anime_response.json()['id']}", headers=headers
     )
 
     assert response.status_code == 200
@@ -118,7 +113,7 @@ def test_watch_anime_duplicate(test_client):
         "description": "Description of Fun Anime",
         "rank": 5,
         "main_picture": "http://example.com/image.jpg",
-        "tags": ["Comedy"]
+        "tags": ["Comedy"],
     }
     response = test_client.post("/anime/", json=anime_data)
     anime_id = response.json()["id"]
@@ -131,14 +126,12 @@ def test_watch_anime_duplicate(test_client):
     anime_response = test_client.get(f"/animes/{anime_id}")
 
     response = test_client.post(
-        f"/watch/{anime_response.json()['id']}",
-        headers=headers
+        f"/watch/{anime_response.json()['id']}", headers=headers
     )
 
     # Watch the same anime
     response = test_client.post(
-        f"/watch/{anime_response.json()['id']}",
-        headers=headers
+        f"/watch/{anime_response.json()['id']}", headers=headers
     )
 
     assert response.status_code == 400

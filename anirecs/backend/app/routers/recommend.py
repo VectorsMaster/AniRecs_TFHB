@@ -4,10 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from anirecs.backend.app.schemas.users import UserResponse
-from anirecs.backend.app.schemas.animes import (
-    AnimesResponse,
-    convert
-)
+from anirecs.backend.app.schemas.animes import AnimesResponse, convert
 from anirecs.backend.app.routers.users import get_current_user
 from anirecs.backend.app.models import User, Anime
 from anirecs.backend.app.database import get_db
@@ -16,10 +13,10 @@ from anirecs.backend.app.database import get_db
 router = APIRouter()
 
 
-@router.get('/recommend', response_model=AnimesResponse)
+@router.get("/recommend", response_model=AnimesResponse)
 def recommend(
     current_user: Annotated[UserResponse, Depends(get_current_user)],
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     user = db.query(User).filter(User.id == current_user.id).first()
     tag_occurences = {}

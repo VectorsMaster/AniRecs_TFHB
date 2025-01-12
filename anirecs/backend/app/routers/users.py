@@ -56,13 +56,14 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     else:
         expire = datetime.now(timezone.utc) + timedelta(minutes=15)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, jwt_settings.OPEN_SSL_RAND, algorithm=jwt_settings.ALGORITHM)
+    encoded_jwt = jwt.encode(
+        to_encode, jwt_settings.OPEN_SSL_RAND, algorithm=jwt_settings.ALGORITHM
+    )
     return encoded_jwt
 
 
 async def get_current_user(
-    token: Annotated[str, Depends(oauth2_scheme)],
-    db: Session = Depends(get_db)
+    token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)
 ):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -70,7 +71,9 @@ async def get_current_user(
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        payload = jwt.decode(token, jwt_settings.OPEN_SSL_RAND, algorithms=[jwt_settings.ALGORITHM])
+        payload = jwt.decode(
+            token, jwt_settings.OPEN_SSL_RAND, algorithms=[jwt_settings.ALGORITHM]
+        )
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
@@ -86,7 +89,7 @@ async def get_current_user(
 @router.post("/token")
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ) -> Token:
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
@@ -112,7 +115,7 @@ async def read_users_me(
 @router.post("/sign_up/", response_model=UserResponse)
 async def sign_user_up(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     user = get_user(db, form_data.username)
     if user:
@@ -123,9 +126,9 @@ async def sign_user_up(
         )
 
     user = User(
-            username=form_data.username,
-            hashed_password=get_password_hash(form_data.password)
-        )
+        username=form_data.username,
+        hashed_password=get_password_hash(form_data.password),
+    )
 
     db.add(user)
     db.commit()
