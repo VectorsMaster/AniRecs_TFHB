@@ -4,7 +4,7 @@ env.read_env()
 
 
 class DataBaseSettings:
-    DataBase_User: str = env.str("DATABASE_USER" ,"sample")
+    DataBase_User: str = env.str("DATABASE_USER", "sample")
     DataBase_Password: str = env.str("DATABASE_PASSWORD", "sample")
     DataBase_Name: str = env.str("DATABASE_NAME", "sample")
     DataBase_URL: str = env.str("DATABASE_URL", "sample")

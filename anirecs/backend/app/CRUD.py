@@ -6,6 +6,7 @@ from anirecs.backend.app.schemas.animes import AnimeCreate
 from anirecs.backend.app.models import Anime, Tag
 from anirecs.backend.app.database import get_db
 
+
 class AnimeService:
 
     @classmethod
@@ -16,7 +17,6 @@ class AnimeService:
             rank=anime.rank,
             main_picture=anime.main_picture,
         )
-
 
         # Handle tags
         for tag_name in anime.tags:
