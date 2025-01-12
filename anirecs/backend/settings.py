@@ -19,5 +19,5 @@ class JWTSettings:
 database_settings = DataBaseSettings()
 jwt_settings = JWTSettings()
 
-ROOT_PASSWORD = env.str("ROOT_PASSWORD")
-CLIENT_ID = env.str("CLIENT_ID")
+ROOT_PASSWORD = env.str("ROOT_PASSWORD", "root_password")
+CLIENT_ID = env.str("CLIENT_ID", "client_id")
