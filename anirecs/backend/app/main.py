@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from passlib.context import CryptContext
 
-from anirecs.backend.app.secrets import root_p
+from anirecs.backend.settings import ROOT_PASSWORD
 from anirecs.backend.app.models import User
 from anirecs.backend.app.database import engine, Base, SessionLocal
 from anirecs.backend.app.routers import (
@@ -26,7 +26,7 @@ def moderator():
     if not user:
         user = User(
             username='root',
-            hashed_password=pwd_context.hash(root_p)
+            hashed_password=pwd_context.hash(ROOT_PASSWORD),
         )
         db.add(user)
         db.commit()

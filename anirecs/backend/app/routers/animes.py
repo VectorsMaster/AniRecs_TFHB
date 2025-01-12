@@ -15,7 +15,7 @@ from anirecs.backend.app.schemas.animes import (
     convert
 )
 from anirecs.backend.app.database import get_db
-from anirecs.backend.app.secrets import client_id
+from anirecs.backend.settings import CLIENT_ID
 
 router = APIRouter()
 
@@ -36,7 +36,7 @@ async def populate(
 
     url = "https://api.myanimelist.net/v2/anime/"
     url = url + "ranking?ranking_type=all&limit=100"
-    headers = {"X-MAL-CLIENT-ID": client_id}
+    headers = {"X-MAL-CLIENT-ID": CLIENT_ID}
     print(url)
     result = 0
     for i in range(pages):

@@ -7,11 +7,8 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
-from anirecs.backend.app.secrets import (
-    OpenSSLRand,
-    ALGORITHM,
-    ACCESS_TOKEN_EXPIRE_MINUTES
-)
+
+from anirecs.backend.settings import jwt_settings
 from anirecs.backend.app.schemas.users import Token, TokenData, UserResponse
 from anirecs.backend.app.models import User
 from anirecs.backend.app.database import get_db
@@ -59,7 +56,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     else:
         expire = datetime.now(timezone.utc) + timedelta(minutes=15)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, OpenSSLRand, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, jwt_settings.OPEN_SSL_RAND, algorithm=jwt_settings.ALGORITHM)
     return encoded_jwt
 
 
@@ -73,7 +70,7 @@ async def get_current_user(
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        payload = jwt.decode(token, OpenSSLRand, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, jwt_settings.OPEN_SSL_RAND, algorithms=[jwt_settings.ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
@@ -98,7 +95,7 @@ async def login_for_access_token(
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=jwt_settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
