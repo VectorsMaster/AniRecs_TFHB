@@ -4,15 +4,15 @@ env.read_env()
 
 
 class DataBaseSettings:
-    DataBase_User: str = env.str("DATABASE_USER")
-    DataBase_Password: str = env.str("DATABASE_PASSWORD")
-    DataBase_Name: str = env.str("DATABASE_NAME")
-    DataBase_URL: str = env.str("DATABASE_URL")
+    DataBase_User: str = env.str("DATABASE_USER" ,"sample")
+    DataBase_Password: str = env.str("DATABASE_PASSWORD", "sample")
+    DataBase_Name: str = env.str("DATABASE_NAME", "sample")
+    DataBase_URL: str = env.str("DATABASE_URL", "sample")
 
 
 class JWTSettings:
-    OPEN_SSL_RAND = env.str("OPEN_SSL_Rand")
-    ALGORITHM = env.str("ALGORITHM")
+    OPEN_SSL_RAND = env.str("OPEN_SSL_Rand", "sample")
+    ALGORITHM = env.str("ALGORITHM", "sample")
     ACCESS_TOKEN_EXPIRE_MINUTES = env.int("ACCESS_TOKEN_EXPIRE_MINUTES", 30)
 
 
