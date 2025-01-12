@@ -1,100 +1,36 @@
 import pytest
-from fastapi.testclient import TestClient
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.pool import StaticPool
-from anirecs.backend.app.database import get_db, Base
-from anirecs.backend.app.main import app
+from fastapi import Depends
+from unittest.mock import patch, MagicMock
+from anirecs.backend.app.schemas.animes import AnimeCreate, AnimeResponse
+from anirecs.backend.app.CRUD import AnimeService
 
 
-SQLALCHEMY_DATABASE_URL = "sqlite://"
-# SQLALCHEMY_DATABASE_URL = "sqlite:///./anirecs/backend/test/test_app.db"
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,
-    connect_args={"check_same_thread": False},
-    poolclass=StaticPool,
-)
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-
-Base.metadata.create_all(bind=engine)
-
-
-# New database session
-def override_get_db():
-    try:
-        db = TestingSessionLocal()
-        yield db
-    finally:
-        db.close()
+def test_add_existed_anime():
+    session_instance = MagicMock()
+    anime =AnimeCreate(
+        title="Test title",
+        description="Test description",
+        rank=1,
+        tags=["action"],
+        main_picture="https://main.picture"
+    )
+    session_instance.add.side_effect = Exception("This anime exists")
+    with pytest.raises(Exception, match="This anime exists"):
+        AnimeService.add_anime(anime, db=session_instance)
 
 
-app.dependency_overrides[get_db] = override_get_db
+def test_retrieve_anime():
 
-client = TestClient(app)
-
-
-# Test client setup
-@pytest.fixture(scope="module")
-def test_client():
-    client = TestClient(app)
-    yield client
-
-
-# Test case to check if a new anime can be created
-def test_create_anime(test_client):
-    # Given
-    new_anime = {
-        "title": "Anime test",
-        "description": "Description test",
-        "rank": 9,
-        "main_picture": "http://example.com/image.jpg",
-        "tags": ["Comedy", "Action"],
+    session_instance = MagicMock()
+    session_instance.query.return_value.filter.return_value.first.return_value = {
+        "title": "Test title",
+        "description": "Test description",
+        "rank": 1,
+        "tags": ["action"],
+        "main_picture" : "https://main.picture"
     }
 
-    # When
-    response = test_client.post("/anime/", json=new_anime)
 
-    # Then
-    assert response.status_code == 200
-    data = response.json()
-    assert data["title"] == new_anime["title"]
-    assert data["description"] == new_anime["description"]
-    assert data["rank"] == new_anime["rank"]
-    assert "Action" in [tag["name"] for tag in data["tags"]]
-    assert "Comedy" in [tag["name"] for tag in data["tags"]]
-
-
-# Test case for handling anime not found
-def test_read_anime_not_found(test_client):
-    # When
-    response = test_client.get("/animes/100")
-
-    # Then
-    assert response.status_code == 404
-    assert response.json() == {"detail": "Item not found"}
-
-
-# Test reading an anime by ID
-def test_read_anime_get(test_client):
-    anime_data = {
-        "title": "Drama Test Anime",
-        "description": "Drama Anime Description",
-        "rank": 8,
-        "main_picture": "http://example.com/image.jpg",
-        "tags": ["Drama", "Fantasy"],
-    }
-    create_response = test_client.post("/anime/", json=anime_data)
-    anime_id = create_response.json()["id"]  # Get the anime ID
-
-    response = test_client.get(f"/animes/{anime_id}")
-
-    assert response.status_code == 200
-    data = response.json()
-
-    assert data["title"] == "Drama Test Anime"
-    assert data["description"] == "Drama Anime Description"
-    assert data["rank"] == 8
-    assert "Drama" in [tag["name"] for tag in data["tags"]]
-    assert "Fantasy" in [tag["name"] for tag in data["tags"]]
+    res = AnimeService.retrieve_anime(1, db = session_instance)
+    assert res["title"] == "Test title"

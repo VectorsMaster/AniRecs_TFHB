@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from anirecs.backend.settings import database_settings
+from contextlib import contextmanager
 
 SQLALCHEMY_DATABASE_URL = (
     f"postgresql://{database_settings.DataBase_User}"
@@ -17,6 +18,7 @@ Base = declarative_base()
 
 
 # Dependency to get the database session
+@contextmanager
 def get_db():
     db = SessionLocal()
     try:

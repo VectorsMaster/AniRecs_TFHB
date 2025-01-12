@@ -14,6 +14,7 @@ from anirecs.backend.app.schemas.animes import (
     AnimesResponse,
     convert,
 )
+from anirecs.backend.app.CRUD import AnimeService
 from anirecs.backend.app.database import get_db
 from anirecs.backend.settings import CLIENT_ID
 
@@ -83,33 +84,14 @@ async def populate(
 
 # API endpoint to create an anime
 @router.post("/anime/", response_model=AnimeResponse)
-def create_anime(anime: AnimeCreate, db: Session = Depends(get_db)):
-    # Create new anime
-    new_anime = Anime(
-        title=anime.title,
-        description=anime.description,
-        rank=anime.rank,
-        main_picture=anime.main_picture,
-    )
-
-    # Handle tags
-    for tag_name in anime.tags:
-        tag = db.query(Tag).filter(Tag.name == tag_name).first()
-        if not tag:
-            tag = Tag(name=tag_name)  # Create new tag if it doesn't exist
-        new_anime.tags.append(tag)  # Associate tag with anime
-
-    db.add(new_anime)
-    db.commit()
-    db.refresh(new_anime)
-
-    return new_anime
+def create_anime(anime: AnimeCreate):
+    return AnimeService.add_anime(anime)
 
 
 # API endpoint to create an item
 @router.get("/animes/{anime_id}", response_model=AnimeResponse)
-def read_item(anime_id: int, db: Session = Depends(get_db)):
-    db_item = db.query(Anime).filter(Anime.id == anime_id).first()
+def read_item(anime_id: int):
+    db_item = AnimeService.retrieve_anime(anime_id)
     if db_item is None:
         raise HTTPException(status_code=404, detail="Item not found")
 
