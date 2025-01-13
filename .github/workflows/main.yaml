@@ -31,9 +31,9 @@ jobs:
         run: poetry run black --check .
         
       - name: bandit check
-        run: poetry run bandit -r anirecs/backend/app/
+        run: poetry run bandit -r backend/app/
 
       - name: testing
-        run: poetry run pytest anirecs/backend/tests
+        run: poetry run pytest backend/tests
      
       
