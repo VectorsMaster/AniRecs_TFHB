@@ -1,7 +1,7 @@
 from sqlalchemy import Table, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from anirecs.backend.app.database import Base
+from backend.app.database import Base
 
 
 class User(Base):

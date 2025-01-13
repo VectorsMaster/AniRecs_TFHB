@@ -4,10 +4,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from passlib.context import CryptContext
 
-from anirecs.backend.settings import ROOT_PASSWORD
-from anirecs.backend.app.models import User
-from anirecs.backend.app.database import engine, Base, SessionLocal
-from anirecs.backend.app.routers import animes, users, history, recommend
+from backend.settings import ROOT_PASSWORD
+from backend.app.models import User
+from backend.app.database import engine, Base, SessionLocal
+from backend.app.routers import animes, users
+from backend.app.routers import history, recommend
 
 # Create tables
 Base.metadata.create_all(bind=engine)

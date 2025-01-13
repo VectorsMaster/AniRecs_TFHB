@@ -2,15 +2,15 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 
 
-from anirecs.backend.app.schemas.animes import AnimeCreate
-from anirecs.backend.app.models import Anime, Tag
-from anirecs.backend.app.database import get_db
+from backend.app.schemas.animes import AnimeCreate
+from backend.app.models import Anime, Tag
+from backend.app.database import get_db
 
 
 class AnimeService:
 
-    @classmethod
-    def add_anime(cls, anime: AnimeCreate, db: Session = Depends(get_db)):
+    @staticmethod
+    def add_anime(anime: AnimeCreate, db: Session):
         new_anime = Anime(
             title=anime.title,
             description=anime.description,
@@ -31,7 +31,7 @@ class AnimeService:
 
         return new_anime
 
-    @classmethod
-    def retrieve_anime(cls, anime_id: int, db: Session = Depends(get_db)):
+    @staticmethod
+    def retrieve_anime(anime_id: int, db: Session):
         db_item = db.query(Anime).filter(Anime.id == anime_id).first()
         return db_item

@@ -3,11 +3,11 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from anirecs.backend.app.schemas.users import UserResponse
-from anirecs.backend.app.schemas.animes import AnimesResponse, convert
-from anirecs.backend.app.routers.users import get_current_user
-from anirecs.backend.app.models import User, Anime
-from anirecs.backend.app.database import get_db
+from backend.app.schemas.users import UserResponse
+from backend.app.schemas.animes import AnimesResponse, convert
+from backend.app.routers.users import get_current_user
+from backend.app.models import User, Anime
+from backend.app.database import get_db
 
 
 router = APIRouter()

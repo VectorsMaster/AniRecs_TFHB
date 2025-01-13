@@ -8,10 +8,10 @@ from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
 
-from anirecs.backend.settings import jwt_settings
-from anirecs.backend.app.schemas.users import Token, TokenData, UserResponse
-from anirecs.backend.app.models import User
-from anirecs.backend.app.database import get_db
+from backend.settings import jwt_settings
+from backend.app.schemas.users import Token, TokenData, UserResponse
+from backend.app.models import User
+from backend.app.database import get_db
 
 router = APIRouter()
 

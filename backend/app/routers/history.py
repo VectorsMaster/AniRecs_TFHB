@@ -1,12 +1,12 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from anirecs.backend.app.schemas.users import UserResponse
-from anirecs.backend.app.routers.users import get_current_user
+from backend.app.schemas.users import UserResponse
+from backend.app.routers.users import get_current_user
 from sqlalchemy.orm import Session
-from anirecs.backend.app.schemas.animes import AnimeResponse, AnimesResponse, convert
-from anirecs.backend.app.database import get_db
-from anirecs.backend.app.models import Anime, AnimeHistory, User
+from backend.app.schemas.animes import AnimeResponse, AnimesResponse, convert
+from backend.app.database import get_db
+from backend.app.models import Anime, AnimeHistory, User
 
 router = APIRouter()
 

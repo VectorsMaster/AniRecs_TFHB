@@ -1,8 +1,7 @@
 import pytest
-from fastapi import Depends
-from unittest.mock import patch, MagicMock
-from anirecs.backend.app.schemas.animes import AnimeCreate, AnimeResponse
-from anirecs.backend.app.CRUD import AnimeService
+from unittest.mock import MagicMock
+from backend.app.schemas.animes import AnimeCreate
+from backend.app.CRUD import AnimeService
 
 
 def test_add_existed_anime():

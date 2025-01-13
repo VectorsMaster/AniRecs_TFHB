@@ -5,18 +5,18 @@ from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 
-from anirecs.backend.app.routers.users import get_current_user
-from anirecs.backend.app.models import Anime, Tag
-from anirecs.backend.app.schemas.users import UserResponse
-from anirecs.backend.app.schemas.animes import (
+from backend.app.routers.users import get_current_user
+from backend.app.models import Anime, Tag
+from backend.app.schemas.users import UserResponse
+from backend.app.schemas.animes import (
     AnimeCreate,
     AnimeResponse,
     AnimesResponse,
     convert,
 )
-from anirecs.backend.app.CRUD import AnimeService
-from anirecs.backend.app.database import get_db
-from anirecs.backend.settings import CLIENT_ID
+from backend.app.CRUD import AnimeService
+from backend.app.database import get_db
+from backend.settings import CLIENT_ID
 
 router = APIRouter()
 
@@ -84,14 +84,14 @@ async def populate(
 
 # API endpoint to create an anime
 @router.post("/anime/", response_model=AnimeResponse)
-def create_anime(anime: AnimeCreate):
-    return AnimeService.add_anime(anime)
+def create_anime(anime: AnimeCreate, db: Session = Depends(get_db)):
+    return AnimeService.add_anime(anime, db)
 
 
 # API endpoint to create an item
 @router.get("/animes/{anime_id}", response_model=AnimeResponse)
-def read_item(anime_id: int):
-    db_item = AnimeService.retrieve_anime(anime_id)
+def read_item(anime_id: int, db: Session = Depends(get_db)):
+    db_item = AnimeService.retrieve_anime(anime_id, db)
     if db_item is None:
         raise HTTPException(status_code=404, detail="Item not found")
 

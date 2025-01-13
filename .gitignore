@@ -4,5 +4,5 @@ __pycache__/
 
 *.coverage
 .pytest_cache
-anirecs/backend/.env
+backend/.env
 .idea
